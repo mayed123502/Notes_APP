@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:course_flutter/sqlite/db.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +11,12 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
+  SqlTest dbSql = new SqlTest();
+  @override
+  void initState() {
+    dbSql.myDeleteDatabase() ; 
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,13 +24,32 @@ class _TestState extends State<Test> {
           title: Text('Test'),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-                child: ElevatedButton(
-              onPressed: () async {},
-              child: Text("Upload Image"),
-            ))
+                child: TextButton(
+              onPressed: () async {
+                var res = await dbSql.readData("notes") ;
+                print(res) ;  
+              },
+              child: Text("Click"),
+              style: TextButton.styleFrom(
+                  primary: Colors.white, backgroundColor: Colors.red),
+            ) , 
+            ) , 
+                Center(
+                child: TextButton(
+              onPressed: () async {
+               var res =  await  dbSql.insertData("books", <String , Object>{
+                  "book" : "wael"
+                }); 
+                print("=========================") ;
+                print(res) ;
+              },
+              child: Text("Insert Data"),
+              style: TextButton.styleFrom(
+                  primary: Colors.white, backgroundColor: Colors.red),
+            ) , 
+            )
           ],
         ));
   }

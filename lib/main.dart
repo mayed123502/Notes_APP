@@ -2,6 +2,8 @@ import 'package:course_flutter/auth/login.dart';
 import 'package:course_flutter/auth/signup.dart';
 import 'package:course_flutter/crud/addnotes.dart';
 import 'package:course_flutter/home/homepage.dart';
+import 'package:course_flutter/sqlite/addnote.dart';
+ 
 import 'package:course_flutter/test.dart';
 import 'package:course_flutter/testtwo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,19 +13,17 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 bool islogin;
 
-
- Future backgroudMessage(RemoteMessage message) async {
-    print("=================== BackGroud Message ========================") ;
-    print("${message.notification.body}") ;
+Future backgroudMessage(RemoteMessage message) async {
+  print("=================== BackGroud Message ========================");
+  print("${message.notification.body}");
 }
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp();
-  
-  FirebaseMessaging.onBackgroundMessage(backgroudMessage) ; 
+
+  FirebaseMessaging.onBackgroundMessage(backgroudMessage);
 
   var user = FirebaseAuth.instance.currentUser;
   if (user == null) {
@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: islogin == false ? Login() : HomePage(),
-      // home: Test(),
+      // home: islogin == false ? Login() : HomePage(),
+      home: Test(),
       theme: ThemeData(
           // fontFamily: "NotoSerif",
           primaryColor: Colors.blue,
@@ -55,7 +55,9 @@ class MyApp extends StatelessWidget {
         "signup": (context) => SignUp(),
         "homepage": (context) => HomePage(),
         "addnotes": (context) => AddNotes(),
-        "testtwo": (context) => TestTwo()
+        "testtwo": (context) => TestTwo()  ,
+        "addnote" : (conetxt) => AddNotesSql() , 
+      
       },
     );
   }
